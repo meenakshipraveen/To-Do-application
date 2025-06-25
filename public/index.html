@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <!-- Main Application Container -->
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <h1 class="app-title">
+                <span class="app-icon">📋</span>
+                To-Do Lists
+            </h1>
+            <div class="header-actions">
+                <button id="add-list-btn" class="btn btn-primary" aria-label="Add new task list">
+                    <span class="btn-icon">➕</span>
+                    New List
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <!-- Sidebar for Task Lists -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Your Lists</h2>
+                    <div class="list-stats" id="overall-stats">
+                        <span class="stat-item">
+                            <span class="stat-label">Total:</span>
+                            <span class="stat-value" id="total-tasks">0</span>
+                        </span>
+                        <span class="stat-item">
+                            <span class="stat-label">Completed:</span>
+                            <span class="stat-value" id="completed-tasks">0</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="task-lists" id="task-lists-container">
+                    <!-- Task lists will be dynamically loaded here -->
+                    <div class="empty-state" id="empty-lists-state">
+                        <div class="empty-icon">📝</div>
+                        <p>No task lists yet</p>
+                        <p class="empty-subtitle">Create your first list to get started</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area for Tasks -->
+            <section class="content">
+                <!-- Welcome Screen -->
+                <div class="welcome-screen" id="welcome-screen">
+                    <div class="welcome-content">
+                        <div class="welcome-icon">🎯</div>
+                        <h2>Welcome to Your To-Do Lists</h2>
+                        <p>Select a list from the sidebar to view and manage your tasks, or create a new list to get started.</p>
+                        <button id="welcome-add-list-btn" class="btn btn-primary">
+                            <span class="btn-icon">➕</span>
+                            Create Your First List
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Task List View -->
+                <div class="task-list-view" id="task-list-view" style="display: none;">
+                    <!-- Task List Header -->
+                    <div class="task-list-header">
+                        <div class="list-title-section">
+                            <h2 class="list-title" id="current-list-title">List Name</h2>
+                            <div class="list-actions">
+                                <button id="edit-list-btn" class="btn btn-secondary btn-sm" aria-label="Edit list name">
+                                    <span class="btn-icon">✏️</span>
+                                </button>
+                                <button id="delete-list-btn" class="btn btn-danger btn-sm" aria-label="Delete list">
+                                    <span class="btn-icon">🗑️</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="list-stats" id="current-list-stats">
+                            <span class="stat-item">
+                                <span class="stat-label">Total:</span>
+                                <span class="stat-value" id="list-total-tasks">0</span>
+                            </span>
+                            <span class="stat-item">
+                                <span class="stat-label">Completed:</span>
+                                <span class="stat-value" id="list-completed-tasks">0</span>
+                            </span>
+                            <span class="stat-item">
+                                <span class="stat-label">Progress:</span>
+                                <span class="stat-value" id="list-completion-rate">0%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Add Task Form -->
+                    <div class="add-task-section">
+                        <form id="add-task-form" class="add-task-form">
+                            <div class="form-row">
+                                <input 
+                                    type="text" 
+                                    id="task-title-input" 
+                                    class="form-input" 
+                                    placeholder="What needs to be done?" 
+                                    required
+                                    maxlength="255"
+                                >
+                                <input 
+                                    type="text" 
+                                    id="task-time-input" 
+                                    class="form-input time-input" 
+                                    placeholder="Time (optional)"
+                                    maxlength="50"
+                                >
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="btn-icon">➕</span>
+                                    Add Task
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tasks Container -->
+                    <div class="tasks-container" id="tasks-container">
+                        <!-- Tasks will be dynamically loaded here -->
+                        <div class="empty-state" id="empty-tasks-state">
+                            <div class="empty-icon">✅</div>
+                            <p>No tasks in this list</p>
+                            <p class="empty-subtitle">Add your first task above</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Adding/Editing Lists -->
+    <div class="modal" id="list-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="list-modal-title">Add New List</h3>
+                <button class="modal-close" id="list-modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="list-form">
+                    <div class="form-group">
+                        <label for="list-name-input" class="form-label">List Name</label>
+                        <input 
+                            type="text" 
+                            id="list-name-input" 
+                            class="form-input" 
+                            placeholder="Enter list name" 
+                            required
+                            maxlength="255"
+                        >
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="list-form-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="list-form-submit">Create List</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Tasks -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="task-modal-title">Edit Task</h3>
+                <button class="modal-close" id="task-modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="task-edit-form">
+                    <div class="form-group">
+                        <label for="edit-task-title-input" class="form-label">Task Title</label>
+                        <input 
+                            type="text" 
+                            id="edit-task-title-input" 
+                            class="form-input" 
+                            placeholder="Enter task title" 
+                            required
+                            maxlength="255"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-task-time-input" class="form-label">Time (Optional)</label>
+                        <input 
+                            type="text" 
+                            id="edit-task-time-input" 
+                            class="form-input" 
+                            placeholder="Enter time"
+                            maxlength="50"
+                        >
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="task-form-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="task-form-submit">Update Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- JavaScript -->
+    <script src="scripts/api.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

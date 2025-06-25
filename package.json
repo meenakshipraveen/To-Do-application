@@ -1,0 +1,28 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "A full-stack to-do list application with multiple task lists support",
+  "main": "app.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "ts-node app.ts",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "keywords": ["todo", "task-management", "typescript", "express"],
+  "author": "Cline",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.13",
+    "@types/uuid": "^9.0.2",
+    "@types/node": "^20.4.5",
+    "typescript": "^5.1.6",
+    "ts-node": "^10.9.1"
+  }
+}

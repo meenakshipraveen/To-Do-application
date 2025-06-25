@@ -373,17 +373,29 @@ class TodoApp {
      */
     renderTasks() {
         const container = document.getElementById('tasks-container');
-        const emptyState = document.getElementById('empty-tasks-state');
-
-        if (this.currentTasks.length === 0) {
-            container.innerHTML = '';
-            container.appendChild(emptyState);
-            emptyState.style.display = 'flex';
+        
+        if (!container) {
+            console.error('Tasks container not found');
             return;
         }
 
-        emptyState.style.display = 'none';
+        // Clear container
         container.innerHTML = '';
+
+        if (this.currentTasks.length === 0) {
+            // Create and show empty state
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.id = 'empty-tasks-state';
+            emptyState.innerHTML = `
+                <div class="empty-icon">✅</div>
+                <p>No tasks in this list</p>
+                <p class="empty-subtitle">Add your first task above</p>
+            `;
+            emptyState.style.display = 'flex';
+            container.appendChild(emptyState);
+            return;
+        }
 
         // Render each task
         this.currentTasks.forEach(task => {

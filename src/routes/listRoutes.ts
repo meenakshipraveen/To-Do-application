@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import * as listController from '../controllers/listController';
+import * as taskController from '../controllers/taskController';
 import { asyncHandler } from '../middleware/errorHandler';
 
 /**
  * Express router for task list endpoints
- * Defines all routes related to task list management
+ * Defines all routes related to task list management and nested task operations
  */
 
 const router = Router();
@@ -51,5 +52,22 @@ router.delete('/:id', asyncHandler(listController.deleteTaskList));
  * Retrieves statistics for a specific task list
  */
 router.get('/:id/stats', asyncHandler(listController.getTaskListStats));
+
+/**
+ * NESTED TASK ROUTES - List-specific task operations
+ * These routes handle tasks within the context of a specific list
+ */
+
+/**
+ * GET /api/lists/:listId/tasks
+ * Retrieves all tasks for a specific task list
+ */
+router.get('/:listId/tasks', asyncHandler(taskController.getTasksByListId));
+
+/**
+ * POST /api/lists/:listId/tasks
+ * Creates a new task in a specific task list
+ */
+router.post('/:listId/tasks', asyncHandler(taskController.createTask));
 
 export default router;

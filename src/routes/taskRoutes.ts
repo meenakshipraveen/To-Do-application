@@ -60,16 +60,4 @@ router.delete('/:id', asyncHandler(taskController.deleteTask));
  */
 router.patch('/:id/toggle', asyncHandler(taskController.toggleTaskCompletion));
 
-/**
- * GET /api/lists/:listId/tasks
- * Retrieves all tasks for a specific task list
- * This route is mounted on the main router, not this task router
- */
-
-/**
- * POST /api/lists/:listId/tasks
- * Creates a new task in a specific task list
- * This route is mounted on the main router, not this task router
- */
-
 export default router;

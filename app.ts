@@ -2,10 +2,8 @@ import express from 'express';
 import { corsMiddleware } from './src/config/cors';
 import { initializeStorage } from './src/config/database';
 import { errorHandler, notFoundHandler, requestLogger } from './src/middleware/errorHandler';
-import { asyncHandler } from './src/middleware/errorHandler';
 import listRoutes from './src/routes/listRoutes';
 import taskRoutes from './src/routes/taskRoutes';
-import * as taskController from './src/controllers/taskController';
 import { Logger } from './src/utils/logger';
 
 /**
@@ -42,13 +40,6 @@ app.use('/api/lists', listRoutes);
 
 // Task routes
 app.use('/api/tasks', taskRoutes);
-
-// Additional task routes that need to be mounted on the main router
-// GET /api/lists/:listId/tasks - Get tasks for a specific list
-app.get('/api/lists/:listId/tasks', asyncHandler(taskController.getTasksByListId));
-
-// POST /api/lists/:listId/tasks - Create a task in a specific list
-app.post('/api/lists/:listId/tasks', asyncHandler(taskController.createTask));
 
 /**
  * Health check endpoint for the entire application
